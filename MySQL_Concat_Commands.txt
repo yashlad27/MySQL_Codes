@@ -1,0 +1,256 @@
+UDEMY MYSQL BOOTCAMP: 
+
+MYSQL concat commands:
+
+
+Last login: Sun Sep 18 11:52:26 on ttys001
+Now using node v18.8.0 (npm v8.18.0)
+ _______________________________________
+/ There is no proverb that is not true. \
+|                                       |
+\ -- Cervantes                          /
+ ---------------------------------------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+
+
+ minima: ~
+👾 >mysql -uroot -p
+-bash: mysql: command not found
+
+ minima: ~
+👾 >export PATH=$PATH:/usr/local/mysql/bin/
+
+ minima: ~
+👾 >mysql -uroot -p
+Enter password:
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+
+ minima: ~
+👾 >mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| books_data         |
+| company_info       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| shirts_db          |
+| sys                |
++--------------------+
+7 rows in set (0.06 sec)
+
+mysql> USE books_data;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> DESC books;
++----------------+--------------+------+-----+---------+----------------+
+| Field          | Type         | Null | Key | Default | Extra          |
++----------------+--------------+------+-----+---------+----------------+
+| book_id        | int          | NO   | PRI | NULL    | auto_increment |
+| title          | varchar(100) | YES  |     | NULL    |                |
+| author_fname   | varchar(100) | YES  |     | NULL    |                |
+| author_lname   | varchar(100) | YES  |     | NULL    |                |
+| released_year  | int          | YES  |     | NULL    |                |
+| stock_quantity | int          | YES  |     | NULL    |                |
+| pages          | int          | YES  |     | NULL    |                |
++----------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.02 sec)
+
+mysql> SELECT * FROM books;
++---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+| book_id | title                                               | author_fname | author_lname   | released_year | stock_quantity | pages |
++---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+|       1 | The Namesake                                        | Jhumpa       | Lahiri         |          2003 |             32 |   291 |
+|       2 | Norse Mythology                                     | Neil         | Gaiman         |          2016 |             43 |   304 |
+|       3 | American Gods                                       | Neil         | Gaiman         |          2001 |             12 |   465 |
+|       4 | Interpreter of Maladies                             | Jhumpa       | Lahiri         |          1996 |             97 |   198 |
+|       5 | A Hologram for the King: A Novel                    | Dave         | Eggers         |          2012 |            154 |   352 |
+|       6 | The Circle                                          | Dave         | Eggers         |          2013 |             26 |   504 |
+|       7 | The Amazing Adventures of Kavalier & Clay           | Michael      | Chabon         |          2000 |             68 |   634 |
+|       8 | Just Kids                                           | Patti        | Smith          |          2010 |             55 |   304 |
+|       9 | A Heartbreaking Work of Staggering Genius           | Dave         | Eggers         |          2001 |            104 |   437 |
+|      10 | Coraline                                            | Neil         | Gaiman         |          2003 |            100 |   208 |
+|      11 | What We Talk About When We Talk About Love: Stories | Raymond      | Carver         |          1981 |             23 |   176 |
+|      12 | Where I'm Calling From: Selected Stories            | Raymond      | Carver         |          1989 |             12 |   526 |
+|      13 | White Noise                                         | Don          | DeLillo        |          1985 |             49 |   320 |
+|      14 | Cannery Row                                         | John         | Steinbeck      |          1945 |             95 |   181 |
+|      15 | Oblivion: Stories                                   | David        | Foster Wallace |          2004 |            172 |   329 |
+|      16 | Consider the Lobster                                | David        | Foster Wallace |          2005 |             92 |   343 |
++---------+-----------------------------------------------------+--------------+----------------+---------------+----------------+-------+
+16 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++----------------------+
+| Tables_in_books_data |
++----------------------+
+| books                |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT author_fname, author_lname FROM books;
++--------------+----------------+
+| author_fname | author_lname   |
++--------------+----------------+
+| Jhumpa       | Lahiri         |
+| Neil         | Gaiman         |
+| Neil         | Gaiman         |
+| Jhumpa       | Lahiri         |
+| Dave         | Eggers         |
+| Dave         | Eggers         |
+| Michael      | Chabon         |
+| Patti        | Smith          |
+| Dave         | Eggers         |
+| Neil         | Gaiman         |
+| Raymond      | Carver         |
+| Raymond      | Carver         |
+| Don          | DeLillo        |
+| John         | Steinbeck      |
+| David        | Foster Wallace |
+| David        | Foster Wallace |
++--------------+----------------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(author_fname, ' ', author_lname) FROM books;
++-----------------------------------------+
+| CONCAT(author_fname, ' ', author_lname) |
++-----------------------------------------+
+| Jhumpa Lahiri                           |
+| Neil Gaiman                             |
+| Neil Gaiman                             |
+| Jhumpa Lahiri                           |
+| Dave Eggers                             |
+| Dave Eggers                             |
+| Michael Chabon                          |
+| Patti Smith                             |
+| Dave Eggers                             |
+| Neil Gaiman                             |
+| Raymond Carver                          |
+| Raymond Carver                          |
+| Don DeLillo                             |
+| John Steinbeck                          |
+| David Foster Wallace                    |
+| David Foster Wallace                    |
++-----------------------------------------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT(author_fname, ' ', author_lname) AS 'full name' FROM books;
++----------------------+
+| full name            |
++----------------------+
+| Jhumpa Lahiri        |
+| Neil Gaiman          |
+| Neil Gaiman          |
+| Jhumpa Lahiri        |
+| Dave Eggers          |
+| Dave Eggers          |
+| Michael Chabon       |
+| Patti Smith          |
+| Dave Eggers          |
+| Neil Gaiman          |
+| Raymond Carver       |
+| Raymond Carver       |
+| Don DeLillo          |
+| John Steinbeck       |
+| David Foster Wallace |
+| David Foster Wallace |
++----------------------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT author_fname AS 'first', author_lname AS 'last',
+    -> CONCAT(author_fname, ' ', author_lname) AS 'full'
+    -> FROM books;
++---------+----------------+----------------------+
+| first   | last           | full                 |
++---------+----------------+----------------------+
+| Jhumpa  | Lahiri         | Jhumpa Lahiri        |
+| Neil    | Gaiman         | Neil Gaiman          |
+| Neil    | Gaiman         | Neil Gaiman          |
+| Jhumpa  | Lahiri         | Jhumpa Lahiri        |
+| Dave    | Eggers         | Dave Eggers          |
+| Dave    | Eggers         | Dave Eggers          |
+| Michael | Chabon         | Michael Chabon       |
+| Patti   | Smith          | Patti Smith          |
+| Dave    | Eggers         | Dave Eggers          |
+| Neil    | Gaiman         | Neil Gaiman          |
+| Raymond | Carver         | Raymond Carver       |
+| Raymond | Carver         | Raymond Carver       |
+| Don     | DeLillo        | Don DeLillo          |
+| John    | Steinbeck      | John Steinbeck       |
+| David   | Foster Wallace | David Foster Wallace |
+| David   | Foster Wallace | David Foster Wallace |
++---------+----------------+----------------------+
+16 rows in set (0.00 sec)
+
+mysql>
+
+
+mysql> SELECT CONCAT(title, '-', author_fname, '-', author_lname) FROM books;
++--------------------------------------------------------------------+
+| CONCAT(title, '-', author_fname, '-', author_lname)                |
++--------------------------------------------------------------------+
+| The Namesake-Jhumpa-Lahiri                                         |
+| Norse Mythology-Neil-Gaiman                                        |
+| American Gods-Neil-Gaiman                                          |
+| Interpreter of Maladies-Jhumpa-Lahiri                              |
+| A Hologram for the King: A Novel-Dave-Eggers                       |
+| The Circle-Dave-Eggers                                             |
+| The Amazing Adventures of Kavalier & Clay-Michael-Chabon           |
+| Just Kids-Patti-Smith                                              |
+| A Heartbreaking Work of Staggering Genius-Dave-Eggers              |
+| Coraline-Neil-Gaiman                                               |
+| What We Talk About When We Talk About Love: Stories-Raymond-Carver |
+| Where I'm Calling From: Selected Stories-Raymond-Carver            |
+| White Noise-Don-DeLillo                                            |
+| Cannery Row-John-Steinbeck                                         |
+| Oblivion: Stories-David-Foster Wallace                             |
+| Consider the Lobster-David-Foster Wallace                          |
++--------------------------------------------------------------------+
+16 rows in set (0.00 sec)
+
+mysql> SELECT CONCAT_WS('-', title, author_fname, author_lname) FROM books;
++--------------------------------------------------------------------+
+| CONCAT_WS('-', title, author_fname, author_lname)                  |
++--------------------------------------------------------------------+
+| The Namesake-Jhumpa-Lahiri                                         |
+| Norse Mythology-Neil-Gaiman                                        |
+| American Gods-Neil-Gaiman                                          |
+| Interpreter of Maladies-Jhumpa-Lahiri                              |
+| A Hologram for the King: A Novel-Dave-Eggers                       |
+| The Circle-Dave-Eggers                                             |
+| The Amazing Adventures of Kavalier & Clay-Michael-Chabon           |
+| Just Kids-Patti-Smith                                              |
+| A Heartbreaking Work of Staggering Genius-Dave-Eggers              |
+| Coraline-Neil-Gaiman                                               |
+| What We Talk About When We Talk About Love: Stories-Raymond-Carver |
+| Where I'm Calling From: Selected Stories-Raymond-Carver            |
+| White Noise-Don-DeLillo                                            |
+| Cannery Row-John-Steinbeck                                         |
+| Oblivion: Stories-David-Foster Wallace                             |
+| Consider the Lobster-David-Foster Wallace                          |
++--------------------------------------------------------------------+
+16 rows in set (0.00 sec)

@@ -1,0 +1,29 @@
+-----------------------------------------------------------------------
+							TRIGGERS
+-----------------------------------------------------------------------
+Syntax:
+
+CREATE TRIGGER trigger_name
+	trigger_time, trigger_event, ON table_name FOR EACH ROW 
+	BEGIN
+	...
+	END;
+
+-----------------------------------------------------------------------
+
+trigger_time:
+	1. BEFORE
+	2. AFTER
+
+trigger_event:
+	1. INSERT
+	2. UPDATE
+	3. DELETE
+
+ON
+
+table_name:
+	1. photos
+	2. users
+
+-----------------------------------------------------------------------

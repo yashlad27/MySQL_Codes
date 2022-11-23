@@ -1,0 +1,519 @@
+DBMS LAB05 VIEWS
+
+Name: Yash Lad
+Roll No: PC19 
+Batch: C2
+ERP: 1032201231
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    CREATE TABLE QUERY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ minima: ~
+🌵 >mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.30 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| books_data         |
+| classicmodels      |
+| company_info       |
+| customer_udemy     |
+| information_schema |
+| music_library      |
+| mysql              |
+| performance_schema |
+| shirts_db          |
+| sys                |
++--------------------+
+10 rows in set (0.14 sec)
+
+mysql> CREATE DATABASE dbms_lab05A;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE dbms_lab05A;
+Database changed
+mysql> CREATE TABLE activites(
+    -> activityID INT NOT NULL AUTO_INCREMENT,
+    -> activityName VARCHAR(256)
+    -> ,
+    -> PRIMARY KEY(activityID)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE performers(
+    -> performerID INT NOT NULL AUTO_INCREMENT,
+    -> performerName VARCHAR(512) NOT NULL,
+    -> street VARCHAR(100) NOT NULL,
+    -> city VARCHAR(100) NOT NULL,
+    -> zip INT NOT NULL,
+    -> FOREIGN KEY(activityID) REFERENCES activites(activityID),
+    -> PRIMARY KEY(performerID)
+    -> );
+ERROR 1072 (42000): Key column 'activityID' doesn't exist in table
+mysql> CREATE TABLE performers( performerID INT NOT NULL AUTO_INCREMENT, performerName VARCHAR(512) NOT NULL, street VARCHAR(100) NOT NULL, city VARCHAR(100) NOT NULL, zip INT NOT NULL,activityID INT NOT NULL, FOREIGN KEY(activityID) REFERENCES activites(activityID), PRIMARY KEY(performerID) );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE arenas(
+    -> arenaID INT NOT NULL AUTO_INCREMENT,
+    -> arenaName VARCHAR(512) NOT NULL,
+    -> city VARCHAR(256) NOT NULL,
+    -> arenaCapacity VARCHAR(512) NOT NULL,
+    -> PRIMARY KEY(arenaID)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE concerts(
+    -> performerID INT NOT NULL,
+    -> arenaID INT NOT NULL,
+    -> concertDate DATE NOT NULL,
+    -> ticketPrice INT,
+    -> FOREIGN KEY(performerID) REFERENCES performers(performerID),
+    -> FOREIGN KEY(arenaID) REFERENCES arenas(arenaID)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW TABLES FROM dbms_lab05A
+    -> ;
++-----------------------+
+| Tables_in_dbms_lab05a |
++-----------------------+
+| activites             |
+| arenas                |
+| concerts              |
+| performers            |
++-----------------------+
+4 rows in set (0.00 sec)
+
+mysql> SHOW COLUMNS FROM activites;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| activityID   | int          | NO   | PRI | NULL    | auto_increment |
+| activityName | varchar(256) | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+2 rows in set (0.02 sec)
+
+mysql> SHOW COLUMNS FROM performers;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| performerID   | int          | NO   | PRI | NULL    | auto_increment |
+| performerName | varchar(512) | NO   |     | NULL    |                |
+| street        | varchar(100) | NO   |     | NULL    |                |
+| city          | varchar(100) | NO   |     | NULL    |                |
+| zip           | int          | NO   |     | NULL    |                |
+| activityID    | int          | NO   | MUL | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> SHOW COLUMNS FROM arenas;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| arenaID       | int          | NO   | PRI | NULL    | auto_increment |
+| arenaName     | varchar(512) | NO   |     | NULL    |                |
+| city          | varchar(256) | NO   |     | NULL    |                |
+| arenaCapacity | varchar(512) | NO   |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SHOW COLUMNS FROM concerts;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| performerID | int  | NO   | MUL | NULL    |       |
+| arenaID     | int  | NO   | MUL | NULL    |       |
+| concertDate | date | NO   |     | NULL    |       |
+| ticketPrice | int  | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    INSERT QUERY
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+mysql> INSERT INTO activites(activityID, activityName) VALUES (1, "Sunburn22");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO activites(activityID, activityName)  VALUES (2, "TommorrowLand23"), (3, "RIDE22"), (4, "Aarohan"),(5, "MetaColab"), (6, "TEDxMIT");
+'Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO performers(performerID, performerName, street, city, zip, activityID)
+    -> VALUES (100, "DJ Snake", "Bhavdhan", "Pune", 411049, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO performers(performerID, performerName, street, city, zip, activityID)  VALUES ("Alan Walker", "Bhavdhan", "Pune", 400049, 2);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Alan Walker", "Bhavdhan", "Pune", 400049, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Marshmello", "Worli", "Mumbai", 401041, 3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Lil Nas X", "Airoli", "Mumbai", 401041, 4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Drake", "Lokhandwala Complex", "Mumbai", 401041, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Kanye West", "Kothrud", "Pune", 401041, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Colin Weston", "Jagtap Dairy", "Pune", 411027, 6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Kanye West", "Thergaon", "Pune", 411021, 6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Rick Ross", "UB City", "Bangalore", 415121, 5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("Alan Walker", "UB City", "Bangalore", 910101, 5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO performers(performerName, street, city, zip, activityID)  VALUES ("KSI", "Shivaji Nagar", "Bangalore", 910101, 5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM PERFORMERS;
++-------------+---------------+---------------------+-----------+--------+------------+
+| performerID | performerName | street              | city      | zip    | activityID |
++-------------+---------------+---------------------+-----------+--------+------------+
+|         100 | DJ Snake      | Bhavdhan            | Pune      | 411049 |          1 |
+|         101 | Alan Walker   | Bhavdhan            | Pune      | 400049 |          2 |
+|         102 | Marshmello    | Worli               | Mumbai    | 401041 |          3 |
+|         103 | Lil Nas X     | Airoli              | Mumbai    | 401041 |          4 |
+|         104 | Drake         | Lokhandwala Complex | Mumbai    | 401041 |          1 |
+|         105 | Kanye West    | Kothrud             | Pune      | 401041 |          3 |
+|         106 | Colin Weston  | Jagtap Dairy        | Pune      | 411027 |          6 |
+|         107 | Kanye West    | Thergaon            | Pune      | 411021 |          6 |
+|         108 | Rick Ross     | UB City             | Bangalore | 415121 |          5 |
+|         109 | Alan Walker   | UB City             | Bangalore | 910101 |          5 |
+|         110 | KSI           | Shivaji Nagar       | Bangalore | 910101 |          5 |
++-------------+---------------+---------------------+-----------+--------+------------+
+11 rows in set (0.01 sec)
+
+mysql> SELECT * FROM activites;
++------------+-----------------+
+| activityID | activityName    |
++------------+-----------------+
+|          1 | Sunburn22       |
+|          2 | TommorrowLand23 |
+|          3 | RIDE22          |
+|          4 | Aarohan         |
+|          5 | MetaColab       |
+|          6 | TEDxMIT         |
++------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> INSERT INTO arenas(arenaName, city, arenaCapacity) VALUES
+    -> ("Drome Arena", "Pune", 1000),
+    -> ("antiSOCIAL", "Pune", 1300),
+    -> ("Mazda Hall", "Pune", 260),
+    -> ("Mayfield Estate", "Pune", 5000),
+    -> ("Dublin Square", "Mumbai", 290),
+    -> ("Tata Theatre", "Mumbai", 3000),
+    -> ("Royal opera House", "Mumbai", 3020),
+    -> ("The Habitat", "Mumbai", 700),
+    -> ("SOHO house", "Mumbai", 150),
+    -> ("Ozone Urbana Arena", "Bangalore", 300),
+    -> ("UB City Amphitheatre", "Bangalore", 400),
+    -> ("Ananya Auditorium", "Bangalore",220)
+    -> ;
+Query OK, 12 rows affected (0.01 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM arenas
+    -> ;
++---------+----------------------+-----------+---------------+
+| arenaID | arenaName            | city      | arenaCapacity |
++---------+----------------------+-----------+---------------+
+|       1 | Drome Arena          | Pune      | 1000          |
+|       2 | antiSOCIAL           | Pune      | 1300          |
+|       3 | Mazda Hall           | Pune      | 260           |
+|       4 | Mayfield Estate      | Pune      | 5000          |
+|       5 | Dublin Square        | Mumbai    | 290           |
+|       6 | Tata Theatre         | Mumbai    | 3000          |
+|       7 | Royal opera House    | Mumbai    | 3020          |
+|       8 | The Habitat          | Mumbai    | 700           |
+|       9 | SOHO house           | Mumbai    | 150           |
+|      10 | Ozone Urbana Arena   | Bangalore | 300           |
+|      11 | UB City Amphitheatre | Bangalore | 400           |
+|      12 | Ananya Auditorium    | Bangalore | 220           |
++---------+----------------------+-----------+---------------+
+12 rows in set (0.00 sec)
+
+mysql> INSERT INTO concerts(performerID, arenaID, concertDate, ticketPrice) VALUES
+    ->
+    -> (100, 11, "2021-06-23", 420);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO concerts(performerID, arenaID, concertDate, ticketPrice) VALUES
+    -> (101, 1, "2021-06-23", 330),
+    -> (101, 3, "2021-07-21", 750),
+    -> (110, 2, "2022-04-10", 600),
+    -> (109, 4, "2022-03-11", 390),
+    -> (109, 2, "2022-09-12", 990),
+    -> (104, 8, "2021-09-03", 1000),
+    -> (107, 11, "2020-10-22", 600),
+    -> (103, 12, "2020-11-22", 780),
+    -> (104, 3, "2020-01-10", 660),
+    -> (102, 12, "2021-04-20", 580),
+    -> (102, 10, "2021-03-03", 550),
+    -> (101, 5, "2022-07-21", 670),
+    -> (102, 1, "2022-05-19", 770),
+    -> (103, 2, "2021-09-21", 590),
+    -> (108, 4, "2020-10-31", 750),
+    -> (108, 9, "2022-09-13", 420),
+    -> (106, 7, "2020-10-01", 550),
+    -> (105, 10, "2020-11-30", 5001),
+    -> (103, 4, "2021-02-28", 400),
+    -> (102, 6, "2020-07-08", 670),
+    -> (110, 5, "2021-07-07", 330);
+Query OK, 21 rows affected (0.01 sec)
+Records: 21  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM concerts;
++-------------+---------+-------------+-------------+
+| performerID | arenaID | concertDate | ticketPrice |
++-------------+---------+-------------+-------------+
+|         100 |      11 | 2021-06-23  |         420 |
+|         101 |       1 | 2021-06-23  |         330 |
+|         101 |       3 | 2021-07-21  |         750 |
+|         110 |       2 | 2022-04-10  |         600 |
+|         109 |       4 | 2022-03-11  |         390 |
+|         109 |       2 | 2022-09-12  |         990 |
+|         104 |       8 | 2021-09-03  |        1000 |
+|         107 |      11 | 2020-10-22  |         600 |
+|         103 |      12 | 2020-11-22  |         780 |
+|         104 |       3 | 2020-01-10  |         660 |
+|         102 |      12 | 2021-04-20  |         580 |
+|         102 |      10 | 2021-03-03  |         550 |
+|         101 |       5 | 2022-07-21  |         670 |
+|         102 |       1 | 2022-05-19  |         770 |
+|         103 |       2 | 2021-09-21  |         590 |
+|         108 |       4 | 2020-10-31  |         750 |
+|         108 |       9 | 2022-09-13  |         420 |
+|         106 |       7 | 2020-10-01  |         550 |
+|         105 |      10 | 2020-11-30  |        5001 |
+|         103 |       4 | 2021-02-28  |         400 |
+|         102 |       6 | 2020-07-08  |         670 |
+|         110 |       5 | 2021-07-07  |         330 |
++-------------+---------+-------------+-------------+
+22 rows in set (0.00 sec)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    EXERCISES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Q1. Write a SQL query to list all the performers’ name and the name of the activity the performer is involved in. 
+
+mysql> SELECT performerID, performerName, activityName FROM performers, activites;
+
++-------------+---------------+-----------------+
+| performerID | performerName | activityName    |
++-------------+---------------+-----------------+
+|         100 | DJ Snake      | TEDxMIT         |
+|         100 | DJ Snake      | MetaColab       |
+|         100 | DJ Snake      | Aarohan         |
+|         100 | DJ Snake      | RIDE22          |
+|         100 | DJ Snake      | TommorrowLand23 |
+|         100 | DJ Snake      | Sunburn22       |
+|         101 | Alan Walker   | TEDxMIT         |
+|         101 | Alan Walker   | MetaColab       |
+|         101 | Alan Walker   | Aarohan         |
+|         101 | Alan Walker   | RIDE22          |
+|         101 | Alan Walker   | TommorrowLand23 |
+|         101 | Alan Walker   | Sunburn22       |
+|         102 | Marshmello    | TEDxMIT         |
+|         102 | Marshmello    | MetaColab       |
+|         102 | Marshmello    | Aarohan         |
+|         102 | Marshmello    | RIDE22          |
+|         102 | Marshmello    | TommorrowLand23 |
+|         102 | Marshmello    | Sunburn22       |
+|         103 | Lil Nas X     | TEDxMIT         |
+|         103 | Lil Nas X     | MetaColab       |
+|         103 | Lil Nas X     | Aarohan         |
+|         103 | Lil Nas X     | RIDE22          |
+|         103 | Lil Nas X     | TommorrowLand23 |
+|         103 | Lil Nas X     | Sunburn22       |
+|         104 | Drake         | TEDxMIT         |
+|         104 | Drake         | MetaColab       |
+|         104 | Drake         | Aarohan         |
+|         104 | Drake         | RIDE22          |
+|         104 | Drake         | TommorrowLand23 |
+|         104 | Drake         | Sunburn22       |
+|         105 | Kanye West    | TEDxMIT         |
+|         105 | Kanye West    | MetaColab       |
+|         105 | Kanye West    | Aarohan         |
+|         105 | Kanye West    | RIDE22          |
+|         105 | Kanye West    | TommorrowLand23 |
+|         105 | Kanye West    | Sunburn22       |
+|         106 | Colin Weston  | TEDxMIT         |
+|         106 | Colin Weston  | MetaColab       |
+|         106 | Colin Weston  | Aarohan         |
+|         106 | Colin Weston  | RIDE22          |
+|         106 | Colin Weston  | TommorrowLand23 |
+|         106 | Colin Weston  | Sunburn22       |
+|         107 | Kanye West    | TEDxMIT         |
+|         107 | Kanye West    | MetaColab       |
+|         107 | Kanye West    | Aarohan         |
+|         107 | Kanye West    | RIDE22          |
+|         107 | Kanye West    | TommorrowLand23 |
+|         107 | Kanye West    | Sunburn22       |
+|         108 | Rick Ross     | TEDxMIT         |
+|         108 | Rick Ross     | MetaColab       |
+|         108 | Rick Ross     | Aarohan         |
+|         108 | Rick Ross     | RIDE22          |
+|         108 | Rick Ross     | TommorrowLand23 |
+|         108 | Rick Ross     | Sunburn22       |
+|         109 | Alan Walker   | TEDxMIT         |
+|         109 | Alan Walker   | MetaColab       |
+|         109 | Alan Walker   | Aarohan         |
+|         109 | Alan Walker   | RIDE22          |
+|         109 | Alan Walker   | TommorrowLand23 |
+|         109 | Alan Walker   | Sunburn22       |
+|         110 | KSI           | TEDxMIT         |
+|         110 | KSI           | MetaColab       |
+|         110 | KSI           | Aarohan         |
+|         110 | KSI           | RIDE22          |
+|         110 | KSI           | TommorrowLand23 |
+|         110 | KSI           | Sunburn22       |
++-------------+---------------+-----------------+
+66 rows in set (0.00 sec)
+
+###########################################################
+
+Q2. Write a SQL statement to create a view called Act_perf based on the query in Exercise 1. 
+
+mysql> CREATE VIEW act_perf AS
+    -> SELECT performerID, performerName, activityName
+    -> FROM activites, performers;
+Query OK, 0 rows affected (0.04 sec)
+
+
+###########################################################
+
+
+Q3. Unlike a query, a virtual table or view can be used as if it is a table in the database.  Now write a SQL query against the view as if it was a table: select everything from the view.
+
+mysql> SELECT * FROM act_perf;
++-------------+---------------+-----------------+
+| performerID | performerName | activityName    |
++-------------+---------------+-----------------+
+|         100 | DJ Snake      | TEDxMIT         |
+|         100 | DJ Snake      | MetaColab       |
+|         100 | DJ Snake      | Aarohan         |
+|         100 | DJ Snake      | RIDE22          |
+|         100 | DJ Snake      | TommorrowLand23 |
+|         100 | DJ Snake      | Sunburn22       |
+|         101 | Alan Walker   | TEDxMIT         |
+|         101 | Alan Walker   | MetaColab       |
+|         101 | Alan Walker   | Aarohan         |
+|         101 | Alan Walker   | RIDE22          |
+|         101 | Alan Walker   | TommorrowLand23 |
+|         101 | Alan Walker   | Sunburn22       |
+|         102 | Marshmello    | TEDxMIT         |
+|         102 | Marshmello    | MetaColab       |
+|         102 | Marshmello    | Aarohan         |
+|         102 | Marshmello    | RIDE22          |
+|         102 | Marshmello    | TommorrowLand23 |
+|         102 | Marshmello    | Sunburn22       |
+|         103 | Lil Nas X     | TEDxMIT         |
+|         103 | Lil Nas X     | MetaColab       |
+|         103 | Lil Nas X     | Aarohan         |
+|         103 | Lil Nas X     | RIDE22          |
+|         103 | Lil Nas X     | TommorrowLand23 |
+|         103 | Lil Nas X     | Sunburn22       |
+|         104 | Drake         | TEDxMIT         |
+|         104 | Drake         | MetaColab       |
+|         104 | Drake         | Aarohan         |
+|         104 | Drake         | RIDE22          |
+|         104 | Drake         | TommorrowLand23 |
+|         104 | Drake         | Sunburn22       |
+|         105 | Kanye West    | TEDxMIT         |
+|         105 | Kanye West    | MetaColab       |
+|         105 | Kanye West    | Aarohan         |
+|         105 | Kanye West    | RIDE22          |
+|         105 | Kanye West    | TommorrowLand23 |
+|         105 | Kanye West    | Sunburn22       |
+|         106 | Colin Weston  | TEDxMIT         |
+|         106 | Colin Weston  | MetaColab       |
+|         106 | Colin Weston  | Aarohan         |
+|         106 | Colin Weston  | RIDE22          |
+|         106 | Colin Weston  | TommorrowLand23 |
+|         106 | Colin Weston  | Sunburn22       |
+|         107 | Kanye West    | TEDxMIT         |
+|         107 | Kanye West    | MetaColab       |
+|         107 | Kanye West    | Aarohan         |
+|         107 | Kanye West    | RIDE22          |
+|         107 | Kanye West    | TommorrowLand23 |
+|         107 | Kanye West    | Sunburn22       |
+|         108 | Rick Ross     | TEDxMIT         |
+|         108 | Rick Ross     | MetaColab       |
+|         108 | Rick Ross     | Aarohan         |
+|         108 | Rick Ross     | RIDE22          |
+|         108 | Rick Ross     | TommorrowLand23 |
+|         108 | Rick Ross     | Sunburn22       |
+|         109 | Alan Walker   | TEDxMIT         |
+|         109 | Alan Walker   | MetaColab       |
+|         109 | Alan Walker   | Aarohan         |
+|         109 | Alan Walker   | RIDE22          |
+|         109 | Alan Walker   | TommorrowLand23 |
+|         109 | Alan Walker   | Sunburn22       |
+|         110 | KSI           | TEDxMIT         |
+|         110 | KSI           | MetaColab       |
+|         110 | KSI           | Aarohan         |
+|         110 | KSI           | RIDE22          |
+|         110 | KSI           | TommorrowLand23 |
+|         110 | KSI           | Sunburn22       |
++-------------+---------------+-----------------+
+66 rows in set (0.01 sec)
+
+###########################################################
+
+Q4. Insert a row in Performers table (use INSERT INTO … VALUES …).
+
+mysql> SELECT * FROM PERFORMERS;
++-------------+---------------+---------------------+-----------+--------+------------+
+| performerID | performerName | street              | city      | zip    | activityID |
++-------------+---------------+---------------------+-----------+--------+------------+
+|         100 | DJ Snake      | Bhavdhan            | Pune      | 411049 |          1 |
+|         101 | Alan Walker   | Bhavdhan            | Pune      | 400049 |          2 |
+|         102 | Marshmello    | Worli               | Mumbai    | 401041 |          3 |
+|         103 | Lil Nas X     | Airoli              | Mumbai    | 401041 |          4 |
+|         104 | Drake         | Lokhandwala Complex | Mumbai    | 401041 |          1 |
+|         105 | Kanye West    | Kothrud             | Pune      | 401041 |          3 |
+|         106 | Colin Weston  | Jagtap Dairy        | Pune      | 411027 |          6 |
+|         107 | Kanye West    | Thergaon            | Pune      | 411021 |          6 |
+|         108 | Rick Ross     | UB City             | Bangalore | 415121 |          5 |
+|         109 | Alan Walker   | UB City             | Bangalore | 910101 |          5 |
+|         110 | KSI           | Shivaji Nagar       | Bangalore | 910101 |          5 |
++-------------+---------------+---------------------+-----------+--------+------------+
+11 rows in set (0.01 sec)
+
+###########################################################
+
+Q5. Create a view called Perf_Income to show the name of the performer, the arena name, the date of the concert and total_income where total income is based the artist receiving 10% of the face value of each ticket and number of tickets sold is always considered 80% of the arena capacity.
+
+total_income = 10% of ticketPrice 
+
+number_of_tickets_sold = 80% of arena capacity
+
+mysql> CREATE VIEW perf_income AS SELECT performerName, arenaName, concertDate, 0.1*ticketPrice, 0.8*arenaCapacity FROM activites, performers, concerts, arenas;
+Query OK, 0 rows affected (0.00 sec)
+
+###########################################################

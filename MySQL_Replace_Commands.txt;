@@ -1,0 +1,10 @@
+REPLACE COMMAND IN SQL:
+
+
+mysql> SELECT REPLACE('Hello World' , 'Hell', '%$#@');
++-----------------------------------------+
+| REPLACE('Hello World' , 'Hell', '%$#@') |
++-----------------------------------------+
+| %$#@o World                             |
++-----------------------------------------+
+1 row in set (0.00 sec)

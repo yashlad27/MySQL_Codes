@@ -1,0 +1,49 @@
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| books_data         |
+| company_info       |
+| information_schema |
+| music_library      |
+| mysql              |
+| performance_schema |
+| shirts_db          |
+| sys                |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> USE music_library;
+Database changed
+mysql> CREATE TABLE music_collection(
+    -> collection_id INT,
+    -> collection_type VARCHAR(256),
+    -> PRIMARY KEY(collection_id)
+    -> );
+Query OK, 0 rows affected (0.12 sec)
+
+mysql> CREATE TABLE artists(
+    -> artist_id INT,
+    -> artist_name VARCHAR(512),
+    -> PRIMARY KEY(artist_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_music_library |
++-------------------------+
+| artists                 |
+| music_collection        |
++-------------------------+
+2 rows in set (0.01 sec)
+
+mysql> SHOW COLUMNS FROM music_collection;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| collection_id   | int          | NO   | PRI | NULL    |       |
+| collection_type | varchar(256) | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)

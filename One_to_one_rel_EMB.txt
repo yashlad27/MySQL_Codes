@@ -1,0 +1,84 @@
+UDEMY-MONGODB-COURSE
+
+one-to-one relations using embedded documents-> why it is better than references
+
+
+👾 >mongosh
+Current Mongosh Log ID:	6325fedfe2cd1917949979d2
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+Using MongoDB:		5.0.9
+Using Mongosh:		1.5.4
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-09-13T00:36:58.067+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+Warning: Found ~/.mongorc.js, but not ~/.mongoshrc.js. ~/.mongorc.js will not be loaded.
+  You may want to copy or rename ~/.mongorc.js to ~/.mongoshrc.js.
+test> show dbs;
+admin     72.00 KiB
+config    36.00 KiB
+flights  156.00 KiB
+local     80.00 KiB
+shop      48.00 KiB
+test> use hospital
+switched to db hospital
+hospital> db.patients.insertOne({name:"Max", age: 20, diseaseSummary:"summary-max-1"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326a779e2cd1917949979d3")
+}
+hospital> db.patients.findOne()
+{
+  _id: ObjectId("6326a779e2cd1917949979d3"),
+  name: 'Max',
+  age: 20,
+  diseaseSummary: 'summary-max-1'
+}
+hospital> db.diseaseSummaries.insertOne({_id:"summary-max-1", diseases:["cold", "Broken leg"]})
+{ acknowledged: true, insertedId: 'summary-max-1' }
+hospital> db.diseaseSummaries.findOne()
+{ _id: 'summary-max-1', diseases: [ 'cold', 'Broken leg' ] }
+hospital> db.patients.findOne()
+{
+  _id: ObjectId("6326a779e2cd1917949979d3"),
+  name: 'Max',
+  age: 20,
+  diseaseSummary: 'summary-max-1'
+}
+hospital> db.patients.findOne().diseaseSummary
+summary-max-1
+hospital> var DSid = db.patients.findOne().diseaseSummary
+
+hospital> DSid
+summary-max-1
+hospital> db.patients.findOne({_id:DSid})
+null
+hospital> db.diseaseSummaries.findOne({_id:DSid})
+{ _id: 'summary-max-1', diseases: [ 'cold', 'Broken leg' ] }
+hospital> db.patients.deleteMany({})
+{ acknowledged: true, deletedCount: 1 }
+hospital> db.patients.insertOne({name:"Max", age: 20, diseaseSummary:{diseases:["Cold", "Broken Leg"]})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:92)
+
+> 1 | db.patients.insertOne({name:"Max", age: 20, diseaseSummary:{diseases:["Cold", "Broken Leg"]})
+    |                                                                                             ^
+  2 |
+
+hospital> db.patients.insertOne({name:"Max", age: 20, diseaseSummary:{diseases:["Cold", "Broken Leg"]}})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326a8f6e2cd1917949979d4")
+}
+hospital> db.patients.findOne()
+{
+  _id: ObjectId("6326a8f6e2cd1917949979d4"),
+  name: 'Max',
+  age: 20,
+  diseaseSummary: { diseases: [ 'Cold', 'Broken Leg' ] }
+}
+hospital>

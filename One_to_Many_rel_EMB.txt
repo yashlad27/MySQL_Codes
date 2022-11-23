@@ -1,0 +1,92 @@
+UDEMY MONGODB COURSE: 
+
+One to Many Relations: Embedded Documents
+ex: Instagram Post and comments.
+
+
+ minima: ~
+🌍 >mongosh
+Current Mongosh Log ID:	6326ab7fc0b1cf280f9004ff
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+Using MongoDB:		5.0.9
+Using Mongosh:		1.5.4
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-09-13T00:36:58.067+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+Warning: Found ~/.mongorc.js, but not ~/.mongoshrc.js. ~/.mongorc.js will not be loaded.
+  You may want to copy or rename ~/.mongorc.js to ~/.mongoshrc.js.
+test> show dbs
+admin      72.00 KiB
+cardData   88.00 KiB
+config    108.00 KiB
+flights   156.00 KiB
+hospital   88.00 KiB
+local      80.00 KiB
+shop       48.00 KiB
+test> use support
+switched to db support
+support> db.questionThreads.insertOne({creator:"Max", question:"How does that all work?", answers:["q1a1", q1a2"]})
+Uncaught:
+SyntaxError: Unterminated string constant. (1:102)
+
+> 1 | db.questionThreads.insertOne({creator:"Max", question:"How does that all work?", answers:["q1a1", q1a2"]})
+    |                                                                                                       ^
+  2 |
+
+support> db.questionThreads.insertOne({creator:"Max", question:"How does that all work?", answers:["q1a1", "q1a2"]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326b6a0c0b1cf280f900500")
+}
+support> db.questionThreads.findOne()
+{
+  _id: ObjectId("6326b6a0c0b1cf280f900500"),
+  creator: 'Max',
+  question: 'How does that all work?',
+  answers: [ 'q1a1', 'q1a2' ]
+}
+support> db.answers.insertMany([{_id:"q1a1", text:"It works like this."}, {_id:"q1a2", text:"Thanks!"}])
+
+{ acknowledged: true, insertedIds: { '0': 'q1a1', '1': 'q1a2' } }
+support> db.answers.findOne()
+{ _id: 'q1a1', text: 'It works like this.' }
+support> db.answers.find()
+[
+  { _id: 'q1a1', text: 'It works like this.' },
+  { _id: 'q1a2', text: 'Thanks!' }
+]
+
+support> db.questionThreads.deleteMany({})
+{ acknowledged: true, deletedCount: 1 }
+support> db.questionThreads.insertOne({creator:"Max", question:"How does that work?", answers: [{text:"Like that"}, {text:"Thanks!"}]})
+
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326b7c3c0b1cf280f900501")
+}
+
+support> db.questionThreads.find()
+[
+  {
+    _id: ObjectId("6326b7c3c0b1cf280f900501"),
+    creator: 'Max',
+    question: 'How does that work?',
+    answers: [ { text: 'Like that' }, { text: 'Thanks!' } ]
+  }
+]
+
+support> db.questionThreads.find().pretty()
+[
+  {
+    _id: ObjectId("6326b7c3c0b1cf280f900501"),
+    creator: 'Max',
+    question: 'How does that work?',
+    answers: [ { text: 'Like that' }, { text: 'Thanks!' } ]
+  }
+]
+support>

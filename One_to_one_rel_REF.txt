@@ -1,0 +1,71 @@
+ UDEMY MONGODB COURSE:
+
+ one to One Relation- Using References i.e. automated ObjectID 
+
+ Useful for analytics purposes
+
+
+ minima: ~
+🌍 >mongosh
+Current Mongosh Log ID:	6326a9dbd506895a58fd8fbc
+Connecting to:		mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+Using MongoDB:		5.0.9
+Using Mongosh:		1.5.4
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-09-13T00:36:58.067+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+Warning: Found ~/.mongorc.js, but not ~/.mongoshrc.js. ~/.mongorc.js will not be loaded.
+  You may want to copy or rename ~/.mongorc.js to ~/.mongoshrc.js.
+test> show dbs;
+admin      72.00 KiB
+config     96.00 KiB
+flights   156.00 KiB
+hospital   88.00 KiB
+local      80.00 KiB
+shop       48.00 KiB
+test> use cardData
+switched to db cardData
+cardData> db.persons.insertOne({name:"Max", car:{model:"BMW", price:50000}})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326aa0fd506895a58fd8fbd")
+}
+cardData> db.persons.findOne()
+{
+  _id: ObjectId("6326aa0fd506895a58fd8fbd"),
+  name: 'Max',
+  car: { model: 'BMW', price: 50000 }
+}
+cardData> db.persons.deleteMany({})
+{ acknowledged: true, deletedCount: 1 }
+cardData> db.persons.insertOne({name:"Max", age:20, salary:6000000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326aac7d506895a58fd8fbe")
+}
+cardData> db.cars.insertOne({model:"BMW M4", price:70000, owner:ObjectId("6326aac7d506895a58fd8fbe")}]
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:91)
+
+> 1 | db.cars.insertOne({model:"BMW M4", price:70000, owner:ObjectId("6326aac7d506895a58fd8fbe")}]
+    |                                                                                            ^
+  2 |
+
+cardData> db.cars.insertOne({model:"BMW M4", price:70000, owner:ObjectId("6326aac7d506895a58fd8fbe")})
+{
+  acknowledged: true,
+  insertedId: ObjectId("6326aaf9d506895a58fd8fbf")
+}
+cardData> db.persons.findOne()
+{
+  _id: ObjectId("6326aac7d506895a58fd8fbe"),
+  name: 'Max',
+  age: 20,
+  salary: 6000000
+}
+cardData>
